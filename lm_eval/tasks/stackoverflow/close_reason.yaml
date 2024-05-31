@@ -1,0 +1,31 @@
+task: close_reason
+dataset_path: csv
+dataset_name: null
+output_type: multiple_choice
+training_split: train
+validation_split: null
+test_split: test
+fewshot_split: train
+dataset_kwargs:
+  data_dir: # data directory
+  data_files:
+    train: train.csv
+    test: test.csv
+description: "Classify the close reason of the presented question. The close reason can be either 'Off-topic', 'Opinion-based', 'Needs more focus' or 'Needs detail or clarity'. Close reason definitions:\nOff-topic: Everything that is not a specific programming problem, a software algorithm or tool commonly used by programmers or a practical answerable problem that is unique to software development.\nOpinion-based: This question is likely to be answered with opinions rather than facts and citations. It should be updated so it will lead to fact-based answers.\nNeeds more focus: This question currently includes multiple questions in one. It should focus on one problem only.\nNeeds details or clarity: This question should include more details and clarify the problem."
+doc_to_text: "\n\nQuestion:\n{{Title}}\n{{Body}}\n\nClose reason:"
+doc_to_target: CloseReason
+doc_to_choice: ["Off-topic", "Opinion-based", "Needs more focus", "Needs details or clarity"]
+metric_list:
+  - metric: acc
+    aggregation: mean
+    higher_is_better: true
+  - metric: acc_norm
+    aggregation: mean
+    higher_is_better: true
+    ignore_case: true
+    ignore_punctuation: true
+  - metric: f1
+    aggregation: !function utils.weighted_f1_score
+    higher_is_better: true
+metadata:
+  version: 1.0
