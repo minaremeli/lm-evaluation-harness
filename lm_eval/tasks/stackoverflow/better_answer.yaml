@@ -1,0 +1,22 @@
+task: better_answer
+dataset_path: csv
+dataset_name: null
+output_type: multiple_choice
+process_docs: !function utils.process_docs
+test_split: test
+dataset_kwargs:
+  data_dir: #  data dir
+  data_files:
+    test: # test.csv
+doc_to_text: "Select the better answer to the following question:\n{{Title}}\n{{Body}}\n\nChoices:\n(A) {{A}}\n(B) {{B}}\n\nAnswer:"
+doc_to_target: answer
+doc_to_choice: ["(A)", "(B)"]
+metric_list:
+  - metric: acc
+    aggregation: mean
+    higher_is_better: true
+  - metric: acc_norm
+    aggregation: mean
+    higher_is_better: true
+metadata:
+  version: 0.0
